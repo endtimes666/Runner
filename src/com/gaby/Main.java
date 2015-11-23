@@ -19,6 +19,8 @@ Calhoun, 43.32
 Harriet, 44.43
 Como, 32.11*/
 
+//Modify this program to use objects to store the data. What class(es) will you create?  
+//Again, your classes should improve your program's organization, conciseness, clarity and structure. 
 
 package com.gaby;
 
