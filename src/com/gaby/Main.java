@@ -24,6 +24,99 @@ Como, 32.11*/
 
 package com.gaby;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Scanner;
+
 public class Main {
+
+	public static void main(String[] args) {
+		// do everything in main
+		Scanner sc = new Scanner(System.in);
+		HashMap<String, Double> lakesAndTimes = new HashMap<String, Double>();
+		HashMap<String, Double> singleLakeTime = new HashMap<String, Double>();
+		String greeting = "Welcome to the Runner App. Please enter your last run:\r\n";
+		printToConsole(greeting);
+		singleLakeTime = getNamesAndTimes(sc);
+		String lakeName;
+		Double lengthOfRun;
+		Iterator it = singleLakeTime.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry entry = (Map.Entry) it.next();
+			lakeName = (String) entry.getKey();
+			lengthOfRun = (Double) entry.getValue();
+			lakesAndTimes.put(lakeName, lengthOfRun);
+		}
+
+		String anotherLakeQuery = "Do you want to enter another run? Y/N";
+		printToConsole(anotherLakeQuery);
+		if (sc.hasNext("Y") == true) {
+			singleLakeTime = getNamesAndTimes(sc);
+			while (it.hasNext()) {
+				Map.Entry entry = (Map.Entry) it.next();
+				lakeName = (String) entry.getKey();
+				lengthOfRun = (Double) entry.getValue();
+				lakesAndTimes.put(lakeName, lengthOfRun);
+			}
+
+		} else {
+			// write a method for getting the fastest times
+			String findFastestTimes = "Here are your fastest times:";
+			printToConsole(findFastestTimes(lakesAndTimes).toString());
+		}
+	}
+
+	public static HashMap<String, Double> findFastestTimes(
+			HashMap<String, Double> map) {
+
+		HashMap<String, Double> fastestMap = null;
+		HashMap<String, Double> sameLakesMap = null;
+
+		Map.Entry firstLake;
+		Iterator it = map.entrySet().iterator();
+		while (it.hasNext()) {
+			firstLake = (Map.Entry) it.next();
+			sameLakesMap.put(firstLake.getKey().toString(),
+					(Double) firstLake.getValue());
+			Map.Entry nextLake = (Map.Entry) it.next();
+			if (nextLake.getKey() == firstLake.getKey())
+				sameLakesMap.put(nextLake.getKey().toString(),
+						(Double) nextLake.getValue());
+		}
+
+		Iterator it2 = sameLakesMap.entrySet().iterator();
+		while (it2.hasNext()) {
+			Map.Entry fastest = (Map.Entry) it2.next();
+			Double fastestTime = (Double) fastest.getValue();
+			fastest = (Map.Entry) it2.next();
+			if ((Double) fastest.getValue() < fastestTime)
+				fastestTime = (Double) fastest.getValue();
+		}
+		return fastestMap;
+	}
+
+	public static HashMap<String, Double> getNamesAndTimes(Scanner sc) {
+
+		HashMap<String, Double> lakeAndTime = new HashMap<String, Double>();
+
+		String where = "Where did you run?";
+		String howLong = "How long was the run? (please enter this in this format: Minutes.Seconds, as in 34.22)";
+
+		printToConsole(where);
+		String lakeName = sc.nextLine();
+		sc.reset();
+		printToConsole(howLong);
+		String lengthOfRun = sc.nextLine();
+		sc.reset();
+
+		return lakeAndTime;
+
+	}
+
+	public static void printToConsole(String whatToPrint) {
+		System.out.println(whatToPrint);
+	}
 
 }
